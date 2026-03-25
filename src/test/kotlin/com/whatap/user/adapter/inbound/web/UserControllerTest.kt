@@ -140,4 +140,12 @@ class UserControllerTest {
             .perform(get("/api/users/abc"))
             .andExpect(status().isBadRequest)
     }
+
+    @Test
+    fun `GET api users search 에 빈 name 전달 시 400을 반환한다`() {
+        mockMvc
+            .perform(get("/api/users/search?name= "))
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.message").value("Search parameter 'name' must not be blank"))
+    }
 }

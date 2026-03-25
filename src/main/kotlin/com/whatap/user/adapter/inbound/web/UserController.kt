@@ -1,5 +1,6 @@
 package com.whatap.user.adapter.inbound.web
 
+import com.whatap.user.adapter.inbound.web.dto.ErrorResponse
 import com.whatap.user.adapter.inbound.web.dto.PageResponse
 import com.whatap.user.adapter.inbound.web.dto.ReloadResponse
 import com.whatap.user.adapter.inbound.web.dto.UserResponse
@@ -46,7 +47,12 @@ class UserController(
     @GetMapping("/search")
     fun searchUsers(
         @RequestParam name: String,
-    ): ResponseEntity<List<UserResponse>> {
+    ): ResponseEntity<Any> {
+        if (name.isBlank()) {
+            return ResponseEntity.badRequest().body(
+                ErrorResponse(status = 400, message = "Search parameter 'name' must not be blank"),
+            )
+        }
         val users = userQueryUseCase.searchByName(name)
         return ResponseEntity.ok(users.map { UserResponse.from(it) })
     }
