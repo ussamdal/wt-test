@@ -23,7 +23,7 @@ class UserFileLoader(
         val users = mutableListOf<User>()
         val errors = mutableListOf<ParseErrorResult>()
 
-        val lines = userFileResource.inputStream.bufferedReader().readLines()
+        val lines = userFileResource.inputStream.bufferedReader().use { it.readLines() }
 
         lines.forEachIndexed { index, line ->
             val lineNumber = index + 1
