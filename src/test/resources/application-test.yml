@@ -1,0 +1,5 @@
+server:
+  port: 0
+
+app:
+  user-file-path: classpath:user-valid.txt
